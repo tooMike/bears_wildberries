@@ -10,5 +10,3 @@ class SizeBase(BaseModel):
 
 class SizeRead(SizeBase):
     """Получение информации о размере"""
-
-    quantity_by_wh: list[]

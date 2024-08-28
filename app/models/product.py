@@ -19,4 +19,4 @@ class Product(Base):
     sizes: Mapped[list["Size"]] = relationship(back_populates="product")
 
     def __repr__(self):
-        return self.nm_id
+        return str(self.nm_id)

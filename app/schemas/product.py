@@ -11,6 +11,3 @@ class ProductBase(BaseModel):
 
 class ProductRead(ProductBase):
     """Схема для получения информации о товаре."""
-
-    quantity_by_sizes: list[]
-

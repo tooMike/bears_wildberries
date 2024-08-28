@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from app.models.size import Size
 
 
-class SizeWarehouse(Base):
+class SizeWarehouseAssociation(Base):
     """Модель для связи размера и склада."""
 
     size_id: Mapped[int] = mapped_column(
@@ -23,8 +23,9 @@ class SizeWarehouse(Base):
     )
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    size: Mapped["Size"] = relationship(back_populates="warehouses")
-    warehouse: Mapped["Warehouse"] = relationship(back_populates="sizes")
-
-    def __repr__(self):
-        return self.size
+    size: Mapped["Size"] = relationship(
+        back_populates="warehouses_associations"
+    )
+    warehouse: Mapped["Warehouse"] = relationship(
+        back_populates="sizes_associations"
+    )
