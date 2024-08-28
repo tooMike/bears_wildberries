@@ -1,11 +1,8 @@
 from fastapi import FastAPI
 
-# Создание объекта приложения.
-app = FastAPI()
+from app.api.endpoints import router
+from app.core.config import settings
 
+app = FastAPI(title=settings.app_title)
 
-# Декоратор, определяющий, что GET-запросы к основному URL приложения
-# должны обрабатываться этой функцией.
-@app.get('/')
-def read_root():
-    return {'Hello': 'FastAPI'}
+app.include_router(router, prefix="/product")
