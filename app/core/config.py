@@ -6,8 +6,8 @@ class Settings(BaseSettings):
 
     app_title: str = ("Приложение для получение информации о товарах с "
                       "wildberries")
-    database_url: str = "postgresql+asyncpg://user:password@db/dbname"
-    secret: str = "Секретное слово"
+    database_url: str = "sqlite+aiosqlite:///./fastapi.db"
+    secret: str = "MySecretWord"
     model_config = SettingsConfigDict(env_file='.env')
 
 
