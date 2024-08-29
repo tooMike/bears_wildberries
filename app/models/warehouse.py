@@ -12,6 +12,9 @@ if TYPE_CHECKING:
 
 class Warehouse(Base):
     """Модель склада."""
+    __tablename__ = "warehouse"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     wh: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
 

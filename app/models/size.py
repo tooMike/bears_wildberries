@@ -13,6 +13,9 @@ if TYPE_CHECKING:
 
 class Size(Base):
     """Модель размера."""
+    __tablename__ = "size"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     size: Mapped[str] = mapped_column(String, nullable=False)
 

@@ -11,6 +11,9 @@ if TYPE_CHECKING:
 
 class Product(Base):
     """Модель продукта."""
+    __tablename__ = "product"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     nm_id: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
     current_price: Mapped[int] = mapped_column(Integer, nullable=False)

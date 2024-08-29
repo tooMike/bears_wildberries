@@ -77,7 +77,6 @@ async def get_product(
                     size=size_data['origName'],
                     product=product  # Устанавливаем связь с продуктом
                 )
-                size_warehouse = 0
 
                 # Добавляем записи в промежуточную таблицу SizeWarehouseAssociation
                 for stock in size_data['stocks']:
@@ -91,7 +90,6 @@ async def get_product(
                         # Сохраняем промежуточно, чтобы получить ID склада
                         await session.flush()
                     size_warehouse_association = SizeWarehouseAssociation(
-                        id=size_warehouse+1,
                         size=size,
                         warehouse=warehouse,
                         quantity=stock['qty']
