@@ -28,7 +28,8 @@ class CRUDBase:
             session: AsyncSession,
     ):
         """Создание объекта."""
-        obj_in_data = obj_in.dict()
+        # obj_in_data = obj_in.dict()
+        obj_in_data = obj_in
         db_obj = self.model(**obj_in_data)
         session.add(db_obj)
         await session.commit()
