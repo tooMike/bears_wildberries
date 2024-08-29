@@ -62,3 +62,11 @@ class CRUDBase:
         await session.delete(db_obj)
         await session.commit()
         return db_obj
+
+    async def get_multi(
+            self,
+            session: AsyncSession
+    ):
+        """Получение списка объектов."""
+        db_objs = await session.execute(select(self.model))
+        return db_objs.scalars().all()

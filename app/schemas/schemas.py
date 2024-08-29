@@ -1,10 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class WarehouseResponse(BaseModel):
     """Схема для получения информации о складах."""
 
     wh: int = Field(..., ge=0)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SizeWarehouseResponse(BaseModel):
@@ -12,6 +13,7 @@ class SizeWarehouseResponse(BaseModel):
 
     wh: int = Field(..., ge=0)
     quantity: int = Field(..., ge=0)
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SizeResponse(BaseModel):
@@ -19,6 +21,7 @@ class SizeResponse(BaseModel):
 
     size: str
     quantity_by_wh: list[SizeWarehouseResponse]
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ProductResponse(BaseModel):
@@ -27,7 +30,7 @@ class ProductResponse(BaseModel):
     nm_id: int = Field(..., ge=0)
     current_price: int = Field(..., ge=0)
     sum_quantity: int = Field(..., ge=0)
-
     quantity_by_sizes: list[SizeResponse]
+    model_config = ConfigDict(from_attributes=True)
 
 
