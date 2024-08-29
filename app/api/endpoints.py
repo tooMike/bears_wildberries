@@ -2,18 +2,19 @@ import httpx
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.background_tasks import save_product
+from app.api.background_tasks import save_or_update_product
 from app.api.utils import get_product_info
 from app.core.db import get_async_session
 from app.crud.product import product_crud
 from app.schemas.schemas import (ProductResponse, SizeResponse,
                                  SizeWarehouseResponse)
+from app.api.tasks import save_product_async_task
 
 router = APIRouter()
 
 
 @router.get(
-    '/{nm_id}',
+    "/{nm_id}",
     response_model=ProductResponse
 )
 async def get_product(
@@ -47,23 +48,23 @@ async def get_product(
         )
         return response
 
-    # Если товара нет в БД, делаем запрос к внешнему API
+    # Если товара нет в БД, делаем запрос к wildberries и получаем данные
     product_data = await get_product_info(nm_id)
 
     # Преобразование данных в нужный формат
     product_dict = {
-        "nm_id": product_data['id'],
-        "current_price": product_data['salePriceU'],
-        "sum_quantity": product_data['totalQuantity'],
+        "nm_id": product_data["id"],
+        "current_price": product_data["salePriceU"],
+        "sum_quantity": product_data["totalQuantity"],
         "quantity_by_sizes": [
             {
-                "size": size['origName'],
+                "size": size["origName"],
                 "quantity_by_wh": [
-                    {"wh": stock['wh'], "quantity": stock['qty']}
-                    for stock in size['stocks']
+                    {"wh": stock["wh"], "quantity": stock["qty"]}
+                    for stock in size["stocks"]
                 ]
             }
-            for size in product_data['sizes'] if size['stocks']
+            for size in product_data["sizes"] if size["stocks"]
         ]
     }
 
@@ -75,6 +76,6 @@ async def get_product(
     # save_product_task.delay(product_data)
     # save_product_async_task.delay(product_data)
 
-    background_tasks.add_task(save_product, product_data, session)
+    background_tasks.add_task(save_or_update_product, product_data, session)
 
     return product_dict
