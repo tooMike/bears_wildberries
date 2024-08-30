@@ -6,6 +6,7 @@ from app.core.config import settings
 
 async def get_product_info(nm_id: int):
     """Получение информации о товаре с Wildberries."""
+
     url = f"{settings.wildberries_url}{nm_id}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)

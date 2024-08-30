@@ -1,10 +1,11 @@
 from sqlalchemy import delete, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.warehouse import warehouse_crud
 from app.models import Product, Size, SizeWarehouseAssociation, Warehouse
 
 
-async def save_or_update_product(product_data, session):
+async def save_or_update_product(product_data: dict, session: AsyncSession):
     """Сохранение или обновление информации о продукте в БД"""
 
     # Попробуем найти существующий продукт по nm_id
@@ -45,7 +46,7 @@ async def save_or_update_product(product_data, session):
         if size_data["stocks"]:
             size = Size(
                 size=size_data["origName"],
-                product=product  # Устанавливаем связь с продуктом
+                product=product
             )
             session.add(size)
 

@@ -1,5 +1,4 @@
-import httpx
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.background_tasks import save_or_update_product
@@ -8,7 +7,8 @@ from app.core.db import get_async_session
 from app.crud.product import product_crud
 from app.schemas.schemas import (ProductResponse, SizeResponse,
                                  SizeWarehouseResponse)
-from app.api.tasks import save_product_async_task
+
+# from app.api.tasks import save_product_async_task
 
 router = APIRouter()
 
@@ -27,7 +27,7 @@ async def get_product(
         nm_id=nm_id, session=session
     )
     if product:
-        # Ручное создание Pydantic модели
+        # Формируем и отдаем ответ
         response = ProductResponse(
             nm_id=product.nm_id,
             current_price=product.current_price,
@@ -73,7 +73,6 @@ async def get_product(
     # обе эти возможности. В качестве рабочей версии выбрана реализация через
     # background_tasks
 
-    # save_product_task.delay(product_data)
     # save_product_async_task.delay(product_data)
 
     background_tasks.add_task(save_or_update_product, product_data, session)
