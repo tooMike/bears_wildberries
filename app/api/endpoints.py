@@ -54,7 +54,7 @@ async def get_product(
     # Преобразование данных в нужный формат
     product_dict = {
         "nm_id": product_data["id"],
-        "current_price": product_data["salePriceU"],
+        "current_price": product_data["salePriceU"] / 100,
         "sum_quantity": product_data["totalQuantity"],
         "quantity_by_sizes": [
             {

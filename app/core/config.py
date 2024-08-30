@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     celery_backend: str
     pause_between_updates: int = 5
     sleep_between_requests: float = 1
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 settings = Settings()
