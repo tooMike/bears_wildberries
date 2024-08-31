@@ -31,7 +31,7 @@ storage = RedisStorage2(
 dp = Dispatcher(bot, storage=storage)
 
 
-@dp.message_handler(commands=['start', 'help'])
+@dp.message_handler(commands=["start", "help"])
 async def send_welcome(message: types.Message):
     """
     Отправка сообщения при использовании команд `/start` or `/help`.
@@ -72,5 +72,5 @@ async def product_info_handler(message: types.Message):
         await message.answer(f"Произошла ошибка: {str(e)}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)

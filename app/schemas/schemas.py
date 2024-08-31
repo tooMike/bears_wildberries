@@ -32,5 +32,3 @@ class ProductResponse(BaseModel):
     sum_quantity: int = Field(..., ge=0)
     quantity_by_sizes: list[SizeResponse]
     model_config = ConfigDict(from_attributes=True)
-
-
