@@ -10,7 +10,6 @@ from product_service import format_product_info, get_product_info
 load_dotenv()
 
 API_TOKEN = os.getenv("BOT_TOKEN")
-REDIS_URL = os.getenv("REDIS_URL")
 LIMITING_BOT_REQUESTS = int(os.getenv("LIMITING_BOT_REQUESTS"))
 BOT_REDIS_HOST = os.getenv("BOT_REDIS_HOST")
 BOT_REDIS_PORT = int(os.getenv("BOT_REDIS_PORT"))
