@@ -20,5 +20,5 @@ def update_products():
                 # Добавляем паузу между запросами
                 await asyncio.sleep(settings.sleep_between_requests)
 
-    loop = asyncio.new_event_loop()
+    loop = asyncio.get_event_loop()
     loop.run_until_complete(inner())
