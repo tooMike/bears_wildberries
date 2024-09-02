@@ -1,10 +1,10 @@
 import asyncio
 from contextlib import asynccontextmanager
 
-from alembic import command
-from alembic.config import Config
 from fastapi import FastAPI
 
+from alembic import command
+from alembic.config import Config
 from app.api.endpoints import router
 from app.core.config import settings
 

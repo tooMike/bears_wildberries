@@ -1,9 +1,9 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.crud.background_tasks import save_or_update_product
 from app.api.utils import get_product_info
 from app.core.db import get_async_session
+from app.crud.background_tasks import save_or_update_product
 from app.crud.product import product_crud
 from app.schemas.schemas import (ProductResponse, SizeResponse,
                                  SizeWarehouseResponse)
