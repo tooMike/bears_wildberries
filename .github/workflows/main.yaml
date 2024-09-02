@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          dockerfile: Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/bears:latest
 
@@ -80,7 +80,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          dockerfile: bot.Dockerfile
+          file: bot.Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/bears_bot:latest
 
