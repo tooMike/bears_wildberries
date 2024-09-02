@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  fastapi:
+    image: toomike/bears
+    container_name: fastapi_app
+    # Добавляем паузу для ожидания запуска БД
+    command: /bin/bash -c "sleep 10 && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "9100:8000"
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  worker:
+    image: toomike/bears
+    entrypoint: celery
+    command: -A app.celery.celery_app worker --loglevel=info
+    env_file: .env
+    links:
+      - redis
+    depends_on:
+      - redis
+      - db
+      - fastapi
+    restart: always
+
+  beat:
+    image: toomike/bears
+    entrypoint: celery
+    command: -A app.celery.celery_app beat --loglevel=info
+    env_file: .env
+    links:
+      - redis
+    depends_on:
+      - redis
+      - db
+      - fastapi
+    restart: always
+
+  flower:
+    image: toomike/bears
+    command: /bin/bash -c "sleep 10 && celery -A app.celery.celery_app flower --loglevel=info"
+    env_file: .env
+    links:
+      - redis
+      - worker
+    depends_on:
+      - redis
+      - worker
+      - fastapi
+    ports:
+      - "6666:5555"
+    restart: always
+
+  bot:
+    image: toomike/bears_bot
+    container_name: telegram_bot
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+      - fastapi
+    restart: always
+
+  db:
+    image: postgres:14
+    container_name: postgres_db
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6389:6379"
+    restart: always
+
+volumes:
+  postgres_data:
