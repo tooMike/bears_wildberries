@@ -19,8 +19,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    entrypoint: celery
-    command: -A app.celery.celery_app worker --loglevel=info
+    # Добавляем задержку на применение миграций
+    command: /bin/bash -c "sleep 5 && celery -A app.celery.celery_app worker --loglevel=info"
     env_file: .env
     links:
       - redis
@@ -34,8 +34,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    entrypoint: celery
-    command: -A app.celery.celery_app beat --loglevel=info
+    # Добавляем задержку на применение миграций
+    command: /bin/bash -c "sleep 5 && celery -A app.celery.celery_app beat --loglevel=info"
     env_file: .env
     links:
       - redis
@@ -49,7 +49,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: /bin/bash -c "sleep 5 && celery -A app.celery.celery_app flower --loglevel=info"
+    # Добавляем задержку на запуск Celery
+    command: /bin/bash -c "sleep 10 && celery -A app.celery.celery_app flower --loglevel=info"
     env_file: .env
     links:
       - redis
