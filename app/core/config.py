@@ -6,7 +6,8 @@ class Settings(BaseSettings):
 
     app_title: str = ("Приложение для получение информации о товарах с "
                       "wildberries")
-    database_url: str = "postgresql+asyncpg://postgres:mysecretpassword@db/postgres"
+    database_url: str = ("postgresql+asyncpg://"
+                         "postgres:mysecretpassword@db/postgres")
     secret: str = "MySecretWord"
     wildberries_url: str
     celery_broker: str
