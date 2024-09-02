@@ -19,7 +19,7 @@ async def get_product_info(nm_id: int) -> dict:
         return response.json()
 
 
-def format_product_info(product_info):
+def format_product_info(product_info: dict) -> str:
     nm_id = product_info["nm_id"]
     price = product_info["current_price"]
     sum_quantity = product_info["sum_quantity"]

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.background_tasks import save_or_update_product
+from app.crud.background_tasks import save_or_update_product
 from app.api.utils import get_product_info
 from app.core.db import get_async_session
 from app.crud.product import product_crud
@@ -21,7 +21,7 @@ async def get_product(
         nm_id: int,
         background_tasks: BackgroundTasks,
         session: AsyncSession = Depends(get_async_session),
-):
+) -> ProductResponse | dict:
     """Получение информации о товаре."""
     product = await product_crud.get_product_by_nm_id(
         nm_id=nm_id, session=session
@@ -68,13 +68,7 @@ async def get_product(
         ]
     }
 
-    # Добавление товаров в БД можно сделать как с использованием Celery,
-    # так и с использованием background_tasks. В этом проекте реализованы
-    # обе эти возможности. В качестве рабочей версии выбрана реализация через
-    # background_tasks
-
-    # save_product_async_task.delay(product_data)
-
+    # Записываем данные в БД в фоне
     background_tasks.add_task(save_or_update_product, product_data, session)
 
     return product_dict

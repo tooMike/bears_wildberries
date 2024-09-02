@@ -7,8 +7,7 @@ from app.models import Product, Size, SizeWarehouseAssociation, Warehouse
 
 async def save_or_update_product(product_data: dict, session: AsyncSession):
     """Сохранение или обновление информации о продукте в БД"""
-
-    # Попробуем найти существующий продукт по nm_id
+    # Пробуем найти существующий продукт по nm_id
     existing_product = await session.execute(
         select(Product).where(Product.nm_id == product_data["id"])
     )

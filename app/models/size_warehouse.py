@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class SizeWarehouseAssociation(Base):
     """Модель для связи размера и склада."""
+
     __tablename__ = "sizewarehouseassociation"
 
     size_id: Mapped[int] = mapped_column(
